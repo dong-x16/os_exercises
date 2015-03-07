@@ -113,11 +113,11 @@ SETGATE(intr, 0,1,2,3);
 - [x]  
 
 > list_entry_t 是一个双向链表的结构体，结构体中包括它之前的是谁prev和它之后的是谁next；它的功能包括初始化、添加（包括before和after）、删除、返回list的前一个是谁、后一个是谁等基本功能。
+
 > C程序如下所示：
 #include <stdio.h>
 #include <iostream.h>
 using namespace std;
-
 int main() {
     list_entry_t point0;
     list_init(&point0); //初始化
@@ -129,8 +129,8 @@ int main() {
     point1.next = &point2;
     point2.prev = &point1;
     point2.next = NULL;
-    cout << list_prev(&point2) << endl;
-    cout << list_next(&point2) << endl;
+    cout << list_prev(&point1) << endl;
+    cout << list_next(&point1) << endl;
     return 0;
 }
 
@@ -143,6 +143,6 @@ int main() {
 是否愿意挑战大实验（大实验内容来源于你的想法或老师列好的题目，需要与老师协商确定，需完成基本lab，但可不参加闭卷考试），如果有，可直接给老师email或课后面谈。
 - [x]  
 
->  
+> 由于之前基础薄弱，参加大实验可能会比较困难。
 
 ---
