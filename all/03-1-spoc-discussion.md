@@ -131,7 +131,6 @@ void free(Node *temp) {
 
 void print() {
     Node *temp = head;
-    printf("*****************************");
     while (temp != NULL) {
         printf(temp->first);
 	printf(" ");
