@@ -56,12 +56,12 @@ http://coolshell.cn/tag/buddy
 #include <cstdio>
 using namespace std;
 
-struct Node {     //一个内存块
-    int first;  //指向mem开始的地址
-    int size;     //内存块的大小
-    bool is_used; //内存块是否被占用
-    Node *pre;    //前一个内存块
-    Node *next;   //后一个内存块
+typedef struct Node {      //一个内存块
+    int first;             //指向mem开始的地址
+    int size;              //内存块的大小
+    bool is_used;          //内存块是否被占用
+    struct Node *pre;      //前一个内存块
+    struct Node *next;     //后一个内存`块
 };
 
 Node *head = new Node; //内存链表
@@ -132,12 +132,7 @@ void free(Node *temp) {
 void print() {
     Node *temp = head;
     while (temp != NULL) {
-        printf(temp->first);
-	printf(" ");
-	printf(temp->size);
-       	printf(" ");
-       	printf(temp->is_used);
-       	printf("\n");
+        cout << temp->first << " " << temp->size << " " << temp->is_used << endl;
         temp = temp->next;
     }
 }
@@ -150,6 +145,7 @@ int main() {
     print();
     return 0;
 }
+
 
 ```
 
