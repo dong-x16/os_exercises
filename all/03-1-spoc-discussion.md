@@ -106,6 +106,7 @@ void malloc(int size) {
 }
 
 void free(Node *temp) {
+    temp->is_used = false;
     if ((temp->pre) != NULL) {
         bool empty_pre = (temp->pre)->is_used;
         if (empty_pre == false) {
@@ -143,8 +144,16 @@ int main() {
     print();
     malloc(100);
     print();
+    malloc(20);
+    print();
+    free(head->next);
+    free((head->next)->next);
+    print();
+    
     return 0;
 }
+
+
 
 实验结果：
 C:\Windows\system32\cmd.exe /c dx.exe
@@ -154,7 +163,14 @@ C:\Windows\system32\cmd.exe /c dx.exe
 0 50 1
 50 100 1
 150 874 0
+0 50 1
+50 100 1
+150 20 1
+170 854 0
+0 50 1
+50 974 0
 Hit any key to close this window...
+
 
 
 
