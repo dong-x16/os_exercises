@@ -78,7 +78,7 @@ void init(int first, int size) {
 
 void malloc(int size) {
     Node *node = head;
-    Node *aim = head;
+    Node *aim = NULL;
     int max_length = -1;
     while (node != NULL) {
         if (node->size > max_length && node->is_used == false ) {
@@ -94,15 +94,14 @@ void malloc(int size) {
     }
     else {
         Node *split = new Node;
-        split->first = aim->first;
-        split->size = size;
-        split->is_used = true;
-        split->next = aim;
-        split->pre = aim->pre;
-        aim->first = aim->first + split->size;
-        aim->size = aim->size - size;
-        aim->is_used = false;
-        aim->pre = split;
+        split->first = aim->first + size;
+        split->size = aim->size - size;
+        split->is_used = false;
+        split->pre = aim;
+	split->next = aim->next;
+	aim->size = size;
+	aim->next = split;
+        aim->is_used = true;
     }
 }
 
@@ -141,10 +140,22 @@ int main() {
     init(0, 1024);
     print();
     malloc(50);
+    print();
     malloc(100);
     print();
     return 0;
 }
+
+实验结果：
+C:\Windows\system32\cmd.exe /c dx.exe
+0 1024 0
+0 50 1
+50 974 0
+0 50 1
+50 100 1
+150 874 0
+Hit any key to close this window...
+
 
 
 ```
