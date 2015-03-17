@@ -50,7 +50,109 @@ NOTICE
 http://coolshell.cn/tag/buddy
 ```
 答：学号是2012011361；选择1：最差匹配 
+```
+#include <iostream>
+#include <cstdlib>
+#include <cstdio>
+using namespace std;
 
+struct Node {     //一个内存块
+    int first;  //指向mem开始的地址
+    int size;     //内存块的大小
+    bool is_used; //内存块是否被占用
+    Node *pre;    //前一个内存块
+    Node *next;   //后一个内存块
+};
+
+Node *head = new Node; //内存链表
+
+//内存区域初始化
+void init(int first, int size) {  
+    head->first = first;  
+    head->size = size;  
+    head->is_used = false;
+    head->pre = NULL;
+    head->next = NULL;  
+}  
+
+
+void malloc(int size) {
+    Node *node = head;
+    Node *aim = head;
+    int max_length = -1;
+    while (node != NULL) {
+        if (node->size > max_length && node->is_used == false ) {
+            max_length = node->size;
+            aim = node;
+        }
+        node = node->next;
+    }
+
+    if (max_length < size) {
+        printf ("没有找到合适大小的内存！");
+        return;
+    }
+    else {
+        Node *split = new Node;
+        split->first = aim->first;
+        split->size = size;
+        split->is_used = true;
+        split->next = aim;
+        split->pre = aim->pre;
+        aim->first = aim->first + split->size;
+        aim->size = aim->size - size;
+        aim->is_used = false;
+        aim->pre = split;
+    }
+}
+
+void free(Node *temp) {
+    if ((temp->pre) != NULL) {
+        bool empty_pre = (temp->pre)->is_used;
+        if (empty_pre == false) {
+            (temp->pre)->size = (temp->pre)->size + temp->size;
+            (temp->pre)->next = temp->next;
+            (temp->next)->pre = temp->pre;
+        }
+    }
+    if ((temp->next) != NULL) {
+        bool empty_next = (temp->next)->is_used;
+        if (empty_next == false) {
+            ((temp->next)->pre)->size = ((temp->next)->pre)->size  + (temp->next)->size;
+            if ((temp->next)->next != NULL) {
+                ((temp->next)->pre)->next = (temp->next)->next;
+                ((temp->next)->next)->pre = temp->pre;
+            }
+            else 
+                ((temp->next)->pre)->next = NULL;
+        }
+    }
+}
+
+void print() {
+    Node *temp = head;
+    printf("*****************************");
+    while (temp != NULL) {
+        printf(temp->first);
+	printf(" ");
+	printf(temp->size);
+       	printf(" ");
+       	printf(temp->is_used);
+       	printf("\n");
+        temp = temp->next;
+    }
+}
+
+int main() {
+    init(0, 1024);
+    print();
+    malloc(50);
+    malloc(100);
+    print();
+    return 0;
+}
+
+```
 
 --- 
 
