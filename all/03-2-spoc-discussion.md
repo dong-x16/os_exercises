@@ -22,7 +22,16 @@ NOTICE
  ```
 - [x]  
 
->  
+>  答:对64bit CPU有64为地址总线，所以64bit CPU理论上支持的物理内存的大小为2^64
+为了适应64位CPU，可以使用四级页表来处理，如：IA-32、IA64系统；也可以使用倒排页表，如：PowerPC等
+以四级页表为例，当使用4KB的页面大小时，四级页表的地址结构为：
+16位符号扩展 + 9位第四级页位图索引（PLM4）+ 9位页目录指针表索引（PDP）+ 9位页目索引（PD）+ 9位页表索引（PT）+ 12位页内偏移
+多级页表结构虚拟地址-->物理地址的映射过程：
+虚拟地址的第一个部分称为全局页目录PGD，PGD的数组项指向中间页目录的起始地址，虚拟地址的第二部分为中间页目录
+PMD，PMD数组项是一个指向页表或页目录的指针，虚拟地址第三部分是页表数组PTE，页表的数组项指向物理内存页，虚拟
+地址的最后一个部分为偏移量，它指定了页内部的一个字节位置，每个地址都指向地址空间的某个字节。
+
+
 
 ## 小组思考题
 ---
@@ -31,10 +40,12 @@ NOTICE
 
 - [x]  
 
+> 设不在内存的页面的平均访问时间为xns，因缺页率为10%：
+10%·x + (1-10%)·150 = 500，解之得：x = 5ms
+
 > 500=0.9\*150+0.1\*x
 
-（2）(spoc) 有一台假想的计算机，页大小（page size）为32 Bytes，支持32KB的虚拟地址空间（virtual address space）,有4KB的物理内存空间（physical memory），采用二级页表，一个页目录项（page directory entry ，PDE）大小为1 Byte,一个页表项（page-table entries
-PTEs）大小为1 Byte，1个页目录表大小为32 Bytes，1个页表大小为32 Bytes。页目录基址寄存器（page directory base register，PDBR）保存了页目录表的物理地址（按页对齐）。
+（2）(spoc) 有一台假想的计算机，页大小（page size）为32 Bytes，支持32KB的虚拟地址空间（virtual address space）,有4KB的物理内存空间（physical memory），采用二级页表，一个页目录项（page directory entry ，PDE）大小为1 Byte,一个页表项（page-table entries PTEs）大小为1 Byte，1个页目录表大小为32 Bytes，1个页表大小为32 Bytes。页目录基址寄存器（page directory base register，PDBR）保存了页目录表的物理地址（按页对齐）。
 
 PTE格式（8 bit） :
 ```
@@ -81,7 +92,11 @@ Virtual Address 7268:
       --> Translates to Physical Address 0xca8 --> Value: 16
 ```
 
+```
+答案显示如下：
 
+
+```
 
 （3）请基于你对原理课二级页表的理解，并参考Lab2建页表的过程，设计一个应用程序（可基于python, ruby, C, C++，LISP等）可模拟实现(2)题中描述的抽象OS，可正确完成二级页表转换。
 
