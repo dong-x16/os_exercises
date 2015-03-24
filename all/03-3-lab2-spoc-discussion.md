@@ -127,18 +127,19 @@ va 0xcd82c07c, pa 0x0c20907c, pde_idx 0x00000336, pde_ctx  0x00037003, pte_idx 0
 
 ```
 C:\Windows\system32\cmd.exe /c vir_phy.exe
-va 0xcd82c07c, pa 0x0c20907c, pde_idx 0x00000336, pde_ctx 0x00037003, pte_idx 0x0000002c, pte_ctx 0x3082400003
-va 0xc2265b1f, pa 0x0d8f1b1f, pde_idx 0x00000308, pde_ctx 0x00009003, pte_idx 0x00000265, pte_ctx 0x363c400003
-va 0xcc386bbc, pa 0x0414cbbc, pde_idx 0x00000330, pde_ctx 0x00031003, pte_idx 0x00000386, pte_ctx 0x1053000003
-va 0xc7ed4d57, pa 0x07311d57, pde_idx 0x0000031f, pde_ctx 0x00020003, pte_idx 0x000002d4, pte_ctx 0x1cc4400003
-va 0xca6cecc0, pa 0x0c9e9cc0, pde_idx 0x00000329, pde_ctx 0x0002a003, pte_idx 0x000002ce, pte_ctx 0x327a400003
-va 0xc18072e8, pa 0x007412e8, pde_idx 0x00000306, pde_ctx 0x00007003, pte_idx 0x00000007, pte_ctx 0x1d0400003
-va 0xcd5f4b3a, pa 0x06ec9b3a, pde_idx 0x00000335, pde_ctx 0x00036003, pte_idx 0x000001f4, pte_ctx 0x1bb2400003
-va 0xcc324c99, pa 0x0008ac99, pde_idx 0x00000330, pde_ctx 0x00031003, pte_idx 0x00000324, pte_ctx 0x22800003
-va 0xc7204e52, pa 0x0b8b6e52, pde_idx 0x0000031c, pde_ctx 0x0001d003, pte_idx 0x00000204, pte_ctx 0x2e2d800003
-va 0xc3a90293, pa 0x0f1fd293, pde_idx 0x0000030e, pde_ctx 0x0000f003, pte_idx 0x00000290, pte_ctx 0x3c7f400003
-va 0xce6c3f32, pa 0x0f1fd293, pde_idx 0x00000339, pde_ctx 0x0003a003, pte_idx 0x000002c3, pte_ctx 0x3c7f400003
+va 0xcd82c07c, pa 0x0c20907c, pde_idx 0x00000336, pde_ctx 0x00000037, pte_idx 0x0000002c, pte_ctx 0x0000c209
+va 0xc2265b1f, pa 0x0d8f1b1f, pde_idx 0x00000308, pde_ctx 0x00000009, pte_idx 0x00000265, pte_ctx 0x0000d8f1
+va 0xcc386bbc, pa 0x0414cbbc, pde_idx 0x00000330, pde_ctx 0x00000031, pte_idx 0x00000386, pte_ctx 0x0000414c
+va 0xc7ed4d57, pa 0x07311d57, pde_idx 0x0000031f, pde_ctx 0x00000020, pte_idx 0x000002d4, pte_ctx 0x00007311
+va 0xca6cecc0, pa 0x0c9e9cc0, pde_idx 0x00000329, pde_ctx 0x0000002a, pte_idx 0x000002ce, pte_ctx 0x0000c9e9
+va 0xc18072e8, pa 0x007412e8, pde_idx 0x00000306, pde_ctx 0x00000007, pte_idx 0x00000007, pte_ctx 0x00000741
+va 0xcd5f4b3a, pa 0x06ec9b3a, pde_idx 0x00000335, pde_ctx 0x00000036, pte_idx 0x000001f4, pte_ctx 0x00006ec9
+va 0xcc324c99, pa 0x0008ac99, pde_idx 0x00000330, pde_ctx 0x00000031, pte_idx 0x00000324, pte_ctx 0x0000008a
+va 0xc7204e52, pa 0x0b8b6e52, pde_idx 0x0000031c, pde_ctx 0x0000001d, pte_idx 0x00000204, pte_ctx 0x0000b8b6
+va 0xc3a90293, pa 0x0f1fd293, pde_idx 0x0000030e, pde_ctx 0x0000000f, pte_idx 0x00000290, pte_ctx 0x0000f1fd
+va 0xce6c3f32, pa 0x0f1fd293, pde_idx 0x00000339, pde_ctx 0x0000003a, pte_idx 0x000002c3, pte_ctx 0x0000f1fd
 Hit any key to close this window...
+
 
 ```
 
@@ -161,13 +162,14 @@ int main() {
     long long pte_ctx = 0;
     for (int i=0; i<11; i++) {
 	pde_idx = (va[i] >> 22);
-	pde_ctx = (((pde_idx - 0x300) + 1) << 12) + 3;
+	pde_ctx = ((pde_idx - 0x300) + 1);
 	pte_idx = (va[i] >> 12) & 0x3FF;
-	pte_ctx = ((pa[i] >> 12) << 22) + 3;
+	pte_ctx = (pa[i] >> 12);
 	cout << hex << "va 0x" << setfill('0') << setw(8) << va[i] << ", pa 0x" << setfill('0') << setw(8) << pa[i] << ", pde_idx 0x" << setfill('0') << setw(8) << pde_idx << ", pde_ctx 0x" << setfill('0') << setw(8) << pde_ctx << ", pte_idx 0x" << setfill('0') << setw(8) << pte_idx << ", pte_ctx 0x" << setfill('0') << setw(8) << pte_ctx << endl;
     }
     return 0;
 }
+
 ```
 
 ---
