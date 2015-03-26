@@ -35,6 +35,36 @@ time ./goodlocality
 ```
 可以看到其执行时间。
 
+> 在Linux虚拟机中运行上述代码，可得到如下的结果：
+```
+real	0m0.083s
+user	0m0.037s
+sys	0m0.010s
+```
+可以交换上述代码中i、j的位置，将代码更改为如下：
+```
+#include <stdio.h>
+#define NUM 1024
+#define COUNT 10
+int A[NUM][NUM];
+void main (void) {
+  int i,j,k;
+  for (k = 0; k<COUNT; k++)
+  for (j = 0; j < NUM; j++)
+  for (i = 0; i	< NUM; i++)
+      A[i][j] = i+j;
+  printf("%d count computing over!\n",i*j*k);
+}
+```
+> 运行上述代码，可得到如下结果：
+```
+real	0m0.386s
+user	0m0.197s
+sys	0m0.018s
+```
+>可以发现速度变慢了很多，说明Linux系统下的二维数组是按行组织的，按行访问会比较快
+
+
 ## 小组思考题目
 ----
 
@@ -77,6 +107,31 @@ Virtual Address 1c13:
 Virtual Address 6890:
 Virtual Address 0af6:
 Virtual Address 1e6f:
+
+> 结果如下所示：
+```
+Virtual Address 6653:
+  --> pde index:0x19  pde contents:(valid 0, pfn 0x7f)
+    --> Fault (page directory entry not valid)
+
+Virtual Address 1c13:
+  --> pde index:0x7  pde contents:(valid 1, pfn 0x3d)
+    --> pte index:0x0  pte contents:(valid 1, pfn 0x76)
+      --> Translates to Physical Address ed3 --> Value: 12
+
+Virtual Address 6890:
+  --> pde index:0x1a  pde contents:(valid 0, pfn 0x7f)
+    --> Fault (page directory entry not valid)
+	  
+Virtual Address af6:
+  --> pde index:0x2  pde contents:(valid 1, pfn 0x21)
+    --> pte index:0x17	pte contents:(valid 0, pfn 0x7f)
+      --> To Disk Address 0xff6 --> Value: 3
+	  
+Virtual Address 1e6f:
+  --> pde index:0x7  pde contents:(valid 1, pfn 0x3d)
+    --> pte index:0x13  pte contents:(valid 0, pfn 0x16)
+      --> To Disk Address 0x2cf --> Value: 1c
 ```
 
 **提示:**
