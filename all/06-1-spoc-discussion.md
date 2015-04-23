@@ -121,7 +121,7 @@ if options.solve == True:
 	time = 0
         print 'Execution trace:'
         for i in range(len(joblist)):
-	    print '[ time %3d ] Run job %d for %0.2f secs ( DONE at %0.2f)'%(time, joblist[i][1], joblist[i][1], time + joblist[i][1])
+	    print '  [ time   %3d ] Run job %d for %0.2f secs ( DONE at %0.2f)'%(time, joblist[i][1], joblist[i][1], time + joblist[i][1])
 	    time += joblist[i][1]
 
         print '\nFinal statistics:'
@@ -152,7 +152,7 @@ if options.solve == True:
         print 'Execution trace:'
 	#YOUR CODE
 	for i in range(len(joblist)):
-	    print '[ time %3d ] Run job %d for %0.2f secs ( DONE at %0.2f)'%(time, joblist[i][0], joblist[i][1], time + joblist[i][1])
+	    print '  [ time   %3d ] Run job %d for %0.2f secs ( DONE at %0.2f)'%(time, joblist[i][0], joblist[i][1], time + joblist[i][1])
 	    time += joblist[i][1]
          
         print '\nFinal statistics:'
@@ -209,12 +209,12 @@ if options.solve == True:
 		#YOUR CODE
 		ranfor = quantum
 		runtime -= quantum
-                print '  [ time %3d ] Run job %3d for %.2f secs' % (thetime, jobnum, ranfor)
+                print '  [ time   %3d ] Run job %3d for %.2f secs' % (thetime, jobnum, ranfor)
                 runlist.append([jobnum, runtime])
             else:
                 #YOUR CODE
                 ranfor = quantum
-                print '  [ time %3d ] Run job %3d for %.2f secs ( DONE at %.2f )' % (thetime, jobnum, ranfor, thetime + ranfor)
+                print '  [ time   %3d ] Run job %3d for %.2f secs ( DONE at %.2f )' % (thetime, jobnum, ranfor, thetime + ranfor)
                 turnaround[jobnum] = thetime + ranfor
                 jobcount -= 1
             thetime += ranfor
