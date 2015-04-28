@@ -39,6 +39,82 @@
 请完成如下练习，完成代码填写，并形成spoc练习报告
 > 需写练习报告和简单编码，完成后放到git server 对应的git repo中
 
+```
+++ setup timer interrupts
+----------Begin----------
+Current: 0
+----------Begin----------
+Current: 1
+kernel_execve: pid = 2, name = "exit".
+I am the parent. Forking the child...
+I am parent, fork a child pid 3
+I am the parent, waiting now..
+----------Begin----------
+Current: 2
+I am the child.
+----------Begin----------
+Current: 3
+----------Begin----------
+Current: 3
+----------Begin----------
+Current: 3
+----------Begin----------
+Current: 3
+----------Begin----------
+Current: 3
+----------Begin----------
+Current: 3
+----------Begin----------
+Current: 3
+----------Begin----------
+Current: 3
+schedule to: 2
+-----------End-----------
+waitpid 3 ok.
+exit pass.
+----------Begin----------
+Current: 2
+schedule to: 1
+-----------End-----------
+----------Begin----------
+Current: 1
+all user-mode processes have quit.
+init check memory pass.
+kernel panic at kern/process/proc.c:460:
+    initproc exit.
+
+```
+> 答：修改的代码如下所示：
+```
+void
+schedule(void) {
+    bool intr_flag;
+    struct proc_struct *next;
+	cprintf("----------Begin----------\n");
+	cprintf("Current: %d\n", current->pid);
+    local_intr_save(intr_flag);
+    {
+        current->need_resched = 0;
+        if (current->state == PROC_RUNNABLE) {
+            sched_class_enqueue(current);
+        }
+        if ((next = sched_class_pick_next()) != NULL) {
+            sched_class_dequeue(next);
+        }
+        if (next == NULL) {
+            next = idleproc;
+        }
+        next->runs ++;
+        if (next != current) {
+            proc_run(next);
+			cprintf("schedule to: %d\n", current->pid);
+			cprintf("-----------End-----------\n");
+        }
+    }
+    local_intr_restore(intr_flag);
+}
+```
+
 ### 练习用的[lab6 spoc exercise project source code](https://github.com/chyyuu/ucore_lab/tree/master/labcodes_answer/lab6_result)
 
 
